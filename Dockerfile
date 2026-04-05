@@ -1,10 +1,11 @@
 FROM ghcr.io/imputnet/cobalt:11
 
-# Script that creates cookies.json from env var before starting cobalt
-COPY entrypoint.sh /entrypoint.sh
-
 USER root
-RUN chmod +x /entrypoint.sh && mkdir -p /cookies
+RUN mkdir -p /cookies && chown 1000:1000 /cookies
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 USER 1000
 
-ENTRYPOINT ["/entrypoint.sh"]
+EXPOSE 9000
+
+ENTRYPOINT ["/bin/sh", "/entrypoint.sh"]
