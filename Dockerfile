@@ -5,15 +5,11 @@ FROM node:22-alpine
 RUN mkdir -p /cookies /app && chmod 777 /cookies
 
 COPY --from=base /app /app
-COPY setup-cookies.sh /setup-cookies.sh
-RUN chmod +x /setup-cookies.sh
-
-ENV COOKIE_PATH=/cookies/cookies.json
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
 
 WORKDIR /app
 
 EXPOSE 9000
 
-USER 1000
-
-CMD ["sh", "-c", "sh /setup-cookies.sh && node src/cobalt.js"]
+CMD ["sh", "/start.sh"]
